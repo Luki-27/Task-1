@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "KJoxF5QErm9AMI8pWs/MgWYo83ZXW0L95XOre04Jxhk=",
+  "Hash": "MKhMho/P/8bJXkP1Is7plzloqM3a1H6/gtEuts1908E=",
   "Source": "CSV_MVC",
   "BasePath": "_content/CSV_MVC",
   "Mode": "Default",
@@ -110,6 +110,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
+    },
+    {
+      "Identity": "D:\\MyProjects\\Task-1\\CSV_MVC\\CSV_MVC\\wwwroot\\css\\StyleSheet.css",
+      "SourceId": "CSV_MVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\MyProjects\\Task-1\\CSV_MVC\\CSV_MVC\\wwwroot\\",
+      "BasePath": "_content/CSV_MVC",
+      "RelativePath": "css/StyleSheet.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\StyleSheet.css"
     },
     {
       "Identity": "D:\\MyProjects\\Task-1\\CSV_MVC\\CSV_MVC\\wwwroot\\favicon.ico",

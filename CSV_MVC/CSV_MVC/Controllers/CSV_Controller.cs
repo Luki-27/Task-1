@@ -26,33 +26,29 @@ namespace CSV_MVC.Controllers
                 return View("Index",model);
             }
 
-            var allowedExtensions = new[] { ".csv" };
+            var allowedExtension =  ".csv";
             var fileExtension = Path.GetExtension(file.FileName).ToLower();
 
-            if (string.IsNullOrEmpty(fileExtension) || !allowedExtensions.Contains(fileExtension))
+            if (!allowedExtension.Equals(fileExtension))
             {
                 ViewBag.ErrorMessage = "Invalid file extension. Only CSV files are allowed.";
                 return View("Index", model);
             }
 
-            var headers = new List<string>();
-            var Rows = new List<List<string>>();
-
+            model.Headers = new List<string>();
+            model.Rows = new List<List<string>>();
             using (var reader = new StreamReader(file.OpenReadStream()))
             using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
-
-                headers.AddRange(reader.ReadLine().Split(','));
+                model.Headers.AddRange(reader.ReadLine().Split(','));
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine();
                     var values = line.Split(',');
-                    Rows.Add(new List<string>(values));
+                    model.Rows.Add(new List<string>(values));
                 }
             }
 
-            model.Headers = headers;
-            model.Rows = Rows;
             return View("Index", model);
         }
 
@@ -88,33 +84,3 @@ namespace CSV_MVC.Controllers
     }
 }
 
-
-/*
- * 
- *   var headers = new List<string>();
-            var Rows = new List<List<string>>();
-            using (var reader = new StreamReader(file.OpenReadStream()))
-            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-            {
-                // records = new Dictionary<string, List<string>>(); 
-                csv.Read();
-                csv.ReadHeader();
-                if (string.IsNullOrEmpty(csv.HeaderRecord.ToString()) == true)
-                {
-                    ViewBag.ErrorMessage = "There is no Headers!";
-                    return RedirectToAction("Index");
-                }
-                foreach (var header in csv.HeaderRecord)
-                    headers.Add(header);
-                while (csv.Read())
-                {
-                    var curRow = new List<string>();
-                    foreach (var header in csv.HeaderRecord)
-                    {
-                        curRow.Add(csv.GetField(header));
-                    }
-                    Rows.Add(curRow);
-                }
-            }
-          
- */
