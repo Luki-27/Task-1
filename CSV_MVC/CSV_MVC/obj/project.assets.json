@@ -7151,11 +7151,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\source\\repos\\CSV_MVC\\CSV_MVC\\CSV_MVC.csproj",
+      "projectUniqueName": "D:\\MyProjects\\Task-1\\CSV_MVC\\CSV_MVC\\CSV_MVC.csproj",
       "projectName": "CSV_MVC",
-      "projectPath": "C:\\Users\\user\\source\\repos\\CSV_MVC\\CSV_MVC\\CSV_MVC.csproj",
+      "projectPath": "D:\\MyProjects\\Task-1\\CSV_MVC\\CSV_MVC\\CSV_MVC.csproj",
       "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user\\source\\repos\\CSV_MVC\\CSV_MVC\\obj\\",
+      "outputPath": "D:\\MyProjects\\Task-1\\CSV_MVC\\CSV_MVC\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
