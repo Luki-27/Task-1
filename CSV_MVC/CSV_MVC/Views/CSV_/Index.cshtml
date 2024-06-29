@@ -1,0 +1,99 @@
+﻿@model CSV_MVC.Models.DataViewModel
+
+@{
+    ViewData["Title"] = "Upload CSV File";
+}
+
+<h2>Upload CSV File</h2>
+
+<div>
+
+</div>
+
+@using (Html.BeginForm("Upload", "CSV_", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-group">
+        <label for="File">Choose CSV File</label>
+        <input type="file" name="File" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Upload</button>
+}
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-info">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
+
+
+@if (Model.Headers != null && Model.Rows != null)
+{
+    <head>
+        <style>
+            .table-container {
+                max-height: 600px; 
+                overflow-y: auto; 
+                padding: 5px; 
+            }
+            .table {
+                width: 100%;
+                border-collapse: collapse;
+                border: 1px solid #000000;
+                font-size: 14px;
+            }
+
+            .table th, .table td {
+                padding: 8px;
+                text-align: left;
+                border-bottom: 1px solid #000000; 
+                border-right: 1px solid #000000; 
+            }
+
+        </style>
+    </head>
+
+    <h2>CSV Content</h2>
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    @foreach (var header in Model.Headers)
+                    {
+                        <th>@header</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in Model.Rows)
+                {
+                    <tr>
+                        @foreach (var cell in row)
+                        {
+                            <td>@cell</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    
+    <form asp-action="DownloadAsXLSX" method="post">
+        @foreach (var header in Model.Headers)
+        {
+            <input type="hidden" name="Headers[]" value="@header" />
+        }
+        @for (int i = 0; i < Model.Rows.Count; i++)
+        {
+            @for (int j = 0; j < Model.Rows[i].Count; j++)
+            {
+                <input type="hidden" name="Rows[@i][]"
+                       value="@Model.Rows[i][j]" />
+            }
+        }
+        <button type="submit" class="btn btn-success">Download as XLSX</button>
+    </form>
+}
+
