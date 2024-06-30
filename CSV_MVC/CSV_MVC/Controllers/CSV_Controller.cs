@@ -3,30 +3,32 @@ using CsvHelper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
-using System.Formats.Asn1;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace CSV_MVC.Controllers
 {
     public class CSV_Controller : Controller
     {
-        public ActionResult Index()
+        public IActionResult Index()
         {
             return View(new DataViewModel());
         }
 
-
         [HttpPost("upload")]
-        public ActionResult Upload(IFormFile file)
+        public async Task<IActionResult> Upload(IFormFile file)
         {
             DataViewModel model = new();
             if (file == null || file.Length == 0)
             {
-                ViewBag.ErrorMessage = "No file uploaded or its empty.";
-                return View("Index",model);
+                ViewBag.ErrorMessage = "No file uploaded or it's empty.";
+                return View("Index", model);
             }
 
-            var allowedExtension =  ".csv";
+            var allowedExtension = ".csv";
             var fileExtension = Path.GetExtension(file.FileName).ToLower();
 
             if (!allowedExtension.Equals(fileExtension))
@@ -37,13 +39,15 @@ namespace CSV_MVC.Controllers
 
             model.Headers = new List<string>();
             model.Rows = new List<List<string>>();
+
             using (var reader = new StreamReader(file.OpenReadStream()))
             using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
-                model.Headers.AddRange(reader.ReadLine().Split(','));
+                model.Headers.AddRange((await reader.ReadLineAsync()).Split(','));
+
                 while (!reader.EndOfStream)
                 {
-                    var line = reader.ReadLine();
+                    var line = await reader.ReadLineAsync();
                     var values = line.Split(',');
                     model.Rows.Add(new List<string>(values));
                 }
@@ -52,7 +56,7 @@ namespace CSV_MVC.Controllers
             return View("Index", model);
         }
 
-        public ActionResult DownloadAsXLSX(DataViewModel model)
+        public async Task<IActionResult> DownloadAsXLSX(DataViewModel model)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             using (var package = new ExcelPackage())
@@ -73,7 +77,7 @@ namespace CSV_MVC.Controllers
                 }
 
                 var stream = new MemoryStream();
-                package.SaveAs(stream);
+                await package.SaveAsAsync(stream);
                 stream.Position = 0;
 
                 string excelName = $"Data-{DateTime.Now:yyyyMMddHHmmssfff}.xlsx";
@@ -83,4 +87,3 @@ namespace CSV_MVC.Controllers
         }
     }
 }
-

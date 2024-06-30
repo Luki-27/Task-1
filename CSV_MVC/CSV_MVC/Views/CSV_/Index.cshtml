@@ -6,9 +6,6 @@
 
 <h2>Upload CSV File</h2>
 
-<div>
-
-</div>
 
 @using (Html.BeginForm("Upload", "CSV_", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -59,8 +56,9 @@
         </table>
     </div>
 
-    
-    <form asp-action="DownloadAsXLSX" method="post">
+
+@using (Html.BeginForm("DownloadAsXLSX", "CSV_", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
         @foreach (var header in Model.Headers)
         {
             <input type="hidden" name="Headers[]" value="@header" />
@@ -70,10 +68,11 @@
             @for (int j = 0; j < Model.Rows[i].Count; j++)
             {
                 <input type="hidden" name="Rows[@i][]"
-                       value="@Model.Rows[i][j]" />
+                value="@Model.Rows[i][j]" />
             }
+
         }
         <button type="submit" class="btn btn-success">Download as XLSX</button>
-    </form>
+    }
 }
 
